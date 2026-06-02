@@ -276,7 +276,10 @@ function renderAuth(mode='login'){
       <label>Teléfono (10 dígitos)</label>
       <input id="a-tel" placeholder="222 530 6300" type="tel">
       <label>Contraseña</label>
-      <input id="a-pass" type="password" placeholder="Mín. 6 caracteres">
+     <div style="position:relative">
+        <input id="a-pass" type="password" placeholder="Mín. 6 caracteres" style="padding-right:44px">
+        <button type="button" onclick="togglePass()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:4px;" id="eye-btn">👁️</button>
+      </div>
       <button class="btn btn-primary btn-full" style="margin-top:16px" onclick="${mode==='login'?'doLogin()':'doRegister()'}">
         ${mode==='login'?'Entrar':'Crear cuenta'}
       </button>
@@ -325,6 +328,18 @@ async function seedAdminsIfNeeded(){
 }
 
 function loginUser(u){ currentUser=u; sessionStorage.setItem('wb_user',JSON.stringify(u)); route(); }
+function togglePass(){
+  const input = document.getElementById('a-pass');
+  const btn = document.getElementById('eye-btn');
+  if(!input) return;
+  if(input.type === 'password'){
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
 function doLogout(){ currentUser=null; sessionStorage.removeItem('wb_user'); route(); }
 function showAuthErr(m){ const el=document.getElementById('auth-err'); if(el) el.innerHTML=`<div class="alert alert-err" style="margin-bottom:10px">${m}</div>`; }
 
